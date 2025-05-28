@@ -10,19 +10,15 @@ connectDB()
 const app = express();
 app.use(cors()); // Enable CORS for all routes
 
-// Middeware
-app.use(express.json());
+// Middleware
+app.use(express.json())
 app.use(clerkMiddleware())
 
 // API to listen to clerk webhooks
 app.use("/api/clerk", clerkWebhooks)
 
-app.get('/', (req, res) => {
-  res.send('Hello World  New');
-});
+app.get('/', (req, res) => res.send("API ia working"))
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}`))
