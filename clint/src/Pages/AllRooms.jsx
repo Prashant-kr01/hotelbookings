@@ -99,11 +99,11 @@ const AllRooms = () => {
     }
 
     // Function to sort rooms based on the selected sort options
-     const srotRooms = (a, b) =>{
-        if(selectedSort === 'Price Low to High'){
+     const sortRooms = (a, b) =>{
+        if(selectedSort === 'Price: Low to High'){
             return a.pricePerNight - b.pricePerNight;
         }
-        if(selectedSort === 'Price Hogh to low'){
+        if(selectedSort === 'Price: High to Low'){
             return b.pricePerNight - a.pricePerNight;
         }
         if(selectedSort === 'Newest First'){
@@ -121,7 +121,7 @@ const AllRooms = () => {
 
     // filter and sort rooms based on the selected filters and sort option
      const filteredRooms = useMemo(()=>{
-        return rooms.filter(room => matchesRoomType(room) && matchesPriceRange(room) && filterDestination(room)).sort(srotRooms);
+        return rooms.filter(room => matchesRoomType(room) && matchesPriceRange(room) && filterDestination(room)).sort(sortRooms);
      },[rooms, selectedFilters, selectedSort, searchParams])
 
     //  clear all filters
@@ -144,7 +144,7 @@ const AllRooms = () => {
 
             {filteredRooms.map((room)=>(
                  <div kay={room._id} className='flex flex-col md:flex-row items-start py-10 gap-6 border-b border-gray-300 last:pb-30 last:border-0' key={room._id}>
-                    <img onClick={()=> {navigate(`/rooms/&{room._id}`), scrollTo(0,0)}}
+                    <img onClick={()=> {navigate(`/rooms/${room._id}`), scrollTo(0,0)}}
                      src={room.images[0]} alt="hotel-img" title='View Room Details'className='
                     max-h-65 md:w-1/2 rounded-xl shadow-lg object-cover cursor-pointer'/>
                     <div className='md:w-1/2 flex flex-col gap-2'>
@@ -189,7 +189,7 @@ const AllRooms = () => {
               <div className='text-xs cursor-pointer'>
                 <span onClick={()=>setopenFilters(!openFilters)} className='lg:hidden '>
                     {openFilters ? 'HIDE' : 'SHOW'}</span>
-                <span className='hidden lg:block'>CLEAR</span>
+                <span className='hidden lg:block cursor-pointer' onClick={clearFilters}>CLEAR</span>
               </div>
            </div>
 

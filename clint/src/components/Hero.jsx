@@ -1,11 +1,13 @@
 import React, {useState} from 'react'
-import { assets, cities } from '../assets/assets' // Adjust the path to your logo image
+import { assets } from '../assets/assets' // Adjust the path to your logo image
 import { useAppContext } from '../Context/AppContext'
 
 const Hero = () => {
 
-   const {navigate, getToken, axios, setSearchedCities } = useAppContext()
+   const {navigate, getToken, axios, setSearchedCities, rooms } = useAppContext()
    const [destination, setDestination] = useState("");
+
+   const allCities = [...new Set(rooms.map(room => room.hotel.city))];
 
    const onSearch = async (e)=> {
        e.preventDefault();
@@ -20,6 +22,8 @@ const Hero = () => {
                 if(updatedSearchedCities.length > 3){
                     updatedSearchedCities.shift();
                 }
+                // this line  will save the data in localStorage
+                localStorage.setItem('searchedCities', JSON.stringify(updatedSearchedCities));
                 return updatedSearchedCities;
              })
     }
@@ -39,7 +43,7 @@ const Hero = () => {
                 </div>
                 <input onChange={e=> setDestination(e.target.value)} value={destination} list='destinations' id="destinationInput" type="text" className=" rounded border border-gray-200 px-3 py-1.5 mt-1.5 text-sm outline-none" placeholder="Type here" required />
                 <datalist id='destinations'>
-                        {cities.map((city, i) => (
+                        {allCities.map((city, i) => (
                             <option key={i} value={city} />
                         ))}
                 </datalist>

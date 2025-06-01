@@ -1,6 +1,7 @@
 import React from 'react'
 import { assets } from '../assets/assets'
 
+
 const Footer = () => {
   return (
    <div className='bg-[#f6f9fc] text-gray-500/80 pt-8 px-6 md:px-16 lg:px-24 xl:px-32'>

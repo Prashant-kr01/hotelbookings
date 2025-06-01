@@ -19,7 +19,11 @@ export const AppProvider =({ children })=>{
 
     const [isOwner, setIsOwner] = useState(false)
     const [showHotelReg, setShowHotelReg] = useState(false)
-    const [searchedCities, setSearchedCities] = useState([])
+    const [searchedCities, setSearchedCities] = useState(()=>{
+      const saved =localStorage.getItem('searchedCities');
+      return saved ? JSON.parse(saved) : [];
+    });
+    
     const [rooms, setRooms] = useState([])
 
      const fetchRooms = async () =>{

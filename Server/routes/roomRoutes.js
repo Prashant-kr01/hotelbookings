@@ -11,4 +11,5 @@ roomRouter.get('/', getRooms )
 roomRouter.get('/owner', protect, getOwnerRooms )
 roomRouter.post('/toggle-availability', protect, toggleRoomAvailability )
 roomRouter.patch('/toggle-availability', protect, toggleRoomAvailability)
+
 export default roomRouter;

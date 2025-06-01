@@ -7,8 +7,9 @@ import clerkWebhooks from './controllers/clerkWebhooks.js';
 import userRouter from './routes/userRoutes.js';
 import hotelRouter from './routes/hotelRoutes.js';
 import connectCloudinary from './configs/cloudinary.js';
-import roomRouter from './routes/roomRoutes.js';
+// import roomRouter from './routes/roomRoutes.js';
 import bookingRouter from './routes/bookingsRoutes.js';
+import roomRoutes from './routes/roomRoutes.js';
 
 connectDB()
 connectCloudinary();
@@ -26,9 +27,10 @@ app.use("/api/clerk", express.raw({ type: 'application/json' }), clerkWebhooks);
 app.get('/', (req, res) => res.send("API is working FINE"))
 app.use('/api/user', userRouter)
 app.use('/api/hotels', hotelRouter)
-app.use('/api/rooms', roomRouter )
+// app.use('/api/rooms', roomRouter )
 app.use('/api/bookings', bookingRouter )
 app.get('/', (req, res) => res.send("API is working fine"))
+app.use('/api/rooms', roomRoutes);
 
 const PORT = process.env.PORT || 3000 ;
 
