@@ -35,4 +35,7 @@ app.use('/api/rooms', roomRoutes);
 const PORT = process.env.PORT || 3000 ;
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`))
+<<<<<<< HEAD
 
+=======
+>>>>>>> f768fba59a58ad7e1e10bd65ca40e21c0668ef0f
