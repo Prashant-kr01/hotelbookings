@@ -3,11 +3,15 @@ import Tittle from '../components/Title'
 import {assets} from '../assets/assets'
 import { useAppContext } from '../Context/AppContext'
 import toast from 'react-hot-toast'
+import { useLocation } from 'react-router-dom';
+
+
 
 const MyBookings = () => {
 
    const { axios, getToken, user } = useAppContext()
    const [bookings, setBookings] = useState([])
+    const location = useLocation();
 
    const fetchUserBookings = async ()=>{
     try {
@@ -23,11 +27,35 @@ const MyBookings = () => {
     }
    }
 
+   // handle payments 
+   const handlePayment = async (bookingId)=> {
+    try {
+      const { data } = await axios.post('/api/bookings/stripe-payment',
+        {bookingId}, {headers: {Authorization: `Bearer ${await getToken()}`}})
+      if(data.success){
+         window.location.href = data.url
+      }else{
+        toast.error(data.message)
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
+   }
+
    useEffect (()=>{
     if(user){
       fetchUserBookings()
     }
    },[user])
+
+    useEffect(() => {
+     const params = new URLSearchParams(location.search);
+     if (params.get('payment') === 'success') {
+       fetchUserBookings();
+ // Optionally, remove the query param from the URL
+       window.history.replaceState({}, document.title, location.pathname);
+     }
+        }, [location.search]);
 
   return (
     <div className='py-28 md:pb-35 px-4 md:pt-32 px-4 md:px-16 lg:px-24 xl:px-32 '>
@@ -88,18 +116,17 @@ const MyBookings = () => {
               </div>
               {!booking.isPaid && (
                 
-                <button className='px-4 py-1.5 mt-4 text-xs border border-gray-400 rounded-full hover:bg-gray-50 transition-all cursor-pointer'>
+                <button onClick={()=>handlePayment(booking._id)}  className='px-4 py-1.5 mt-4 text-xs border border-gray-400 rounded-full hover:bg-gray-50 transition-all cursor-pointer'>
                   Pay Now
                 </button>
               )}
-            </div>
+                    </div>
+          </div>
+        ))}
       </div>
-      
-          ))}
-  </div>
-</div>
-    
+    </div>
   )
 }
 
-export default MyBookings
+
+export default MyBookings;
